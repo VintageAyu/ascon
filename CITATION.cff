@@ -7,8 +7,8 @@ authors:
 title: "Sub-20 Gate Ascon Substitution and Invariant-Fused Permutation Datapaths for NIST SP 800-232"
 version: 1.0.0
 date-released: 2026-10-28
-url: "https://github.com/theayuchauhan/ascon-ramanujan"
-repository-code: "https://github.com/theayuchauhan/ascon-ramanujan"
+url: "https://github.com/VintageAyu/ascon-ramanujan"
+repository-code: "https://github.com/VintageAyu/ascon-ramanujan"
 keywords:
   - cryptography
   - ascon

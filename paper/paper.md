@@ -5,7 +5,7 @@
 **Contact**: theayuchauhan@gmail.com  
 **Standard**: NIST Special Publication 800-232 (Ascon-128, Ascon-128a, Ascon-Hash)  
 **Target Architecture**: IEEE 1364-2001 Synthesizable Verilog HDL  
-**Open Source Repository**: [https://github.com/theayuchauhan/ascon-ramanujan](https://github.com/theayuchauhan/ascon-ramanujan)
+**Open Source Repository**: [https://github.com/VintageAyu/ascon-ramanujan](https://github.com/VintageAyu/ascon-ramanujan)
 
 ---
 
@@ -174,6 +174,6 @@ If you use this work, circuit design, or RTL code, please cite:
   journal={arXiv preprint},
   year={2026},
   publisher={Project Ramanujan Cryptographic Discovery Laboratory},
-  url={https://github.com/theayuchauhan/ascon-ramanujan}
+  url={https://github.com/VintageAyu/ascon-ramanujan}
 }
 ```

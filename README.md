@@ -189,7 +189,7 @@ If you use this circuit design, HDL code, or research results in your work, plea
   author={Chauhan, Ayu},
   year={2026},
   publisher={Project Ramanujan Cryptographic Discovery Laboratory},
-  url={https://github.com/theayuchauhan/ascon-ramanujan}
+  url={https://github.com/VintageAyu/ascon-ramanujan}
 }
 ```
 
