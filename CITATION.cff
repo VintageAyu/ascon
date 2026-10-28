@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use this software or hardware design, please cite it as below."
+authors:
+  - family-names: "Chauhan"
+    given-names: "Ayu"
+    email: "theayuchauhan@gmail.com"
+title: "Sub-20 Gate Ascon Substitution and Invariant-Fused Permutation Datapaths for NIST SP 800-232"
+version: 1.0.0
+date-released: 2026-10-28
+url: "https://github.com/theayuchauhan/ascon-ramanujan"
+repository-code: "https://github.com/theayuchauhan/ascon-ramanujan"
+keywords:
+  - cryptography
+  - ascon
+  - nist-sp-800-232
+  - verilog
+  - s-box-optimization
+  - lightweight-cryptography
+  - hardware-acceleration
