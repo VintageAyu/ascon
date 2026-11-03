@@ -155,18 +155,62 @@ Got Tag:      5008e52f9b5291a4b80958b5a332b823
 ```
 
 ### 4. IEEE 1364-2001 Verilog Simulation (Icarus Verilog)
+
+All RTL cores are verified under native Verilog simulation (`iverilog` / `vvp`):
+
 ```bash
-# Test 18-gate S-box
+# 1. Test 18-gate standalone S-box (32/32 truth table vectors)
 iverilog -o tb_sbox.vvp tb_ascon_sbox_18gate.v ascon_sbox_18gate.v
 vvp tb_sbox.vvp
 
-# Test 2-round super-round core
+# 2. Test 2-round super-round core (508 self-checking vectors: KATs, cascade, randomized)
 iverilog -o tb_2r.vvp tb_ascon_super_round_2r.v ascon_super_round_2r.v
 vvp tb_2r.vvp
 
-# Test full NIST LWC AEAD engine
+# 3. Test 4-round mega-round core (304 self-checking vectors)
+iverilog -o tb_4r.vvp tb_ascon_mega_round_4r.v ascon_mega_round_4r.v
+vvp tb_4r.vvp
+
+# 4. Test full NIST LWC AEAD streaming engine
 iverilog -o tb_lwc.vvp tb_ascon128_lwc.v ascon128_lwc_core.v ascon_super_round_2r.v
 vvp tb_lwc.vvp
+```
+
+#### Actual Simulation Verification Proofs:
+```text
+[tb_ascon_sbox_18gate]
+===========================================================================
+  SUCCESS: 32/32 VECTORS MATCHED EXACTLY WITH NIST SP 800-232 (0 ERRORS)
+  Multiplicative Complexity: Exactly 5 Quadratic Gates (3 AND + 2 OR)
+  Linear Complexity: 11 XOR gates
+  Inverters: 2 NOT gates (1 in unrolled mode)
+===========================================================================
+
+[tb_ascon_super_round_2r]
+[TEST 1] Official NIST SP 800-232 Round 0 & 1 Verification...
+✅ [PASS] NIST SP 800-232 KAT Matches Exactly Bit-For-Bit!
+✅ [PASS] Pipelined Core (PIPELINED=1) Latency & Value Verified!
+[TEST 2] Testing 6 Consecutive 2-Round Blocks (Full 12-Round Ascon Permutation)...
+✅ [PASS] All 6 Super-Rounds (12 Rounds) Cascaded with 100% Precision!
+[TEST 3] Running 500 Random 64-bit Test Vectors...
+✅ [SUCCESS] ALL 508 ASCON SUPER-ROUND TESTBENCH CHECKS PASSED!
+
+[tb_ascon_mega_round_4r]
+[TEST 1] First 4 Rounds (0, 1, 2, 3) Known Answer Verification...
+✅ [PASS] 4-Round Mega-Core Output Matches NIST SP 800-232 Exactly!
+[TEST 2] Cascading 3 Mega-Blocks (12 Full Rounds)...
+✅ [PASS] 12-Round Ascon-128 Finished in 3 Mega-Cycles with 100% Precision!
+[TEST 3] Running 300 Randomized 4-Round Test Vectors...
+✅ [SUCCESS] ALL 304 ASCON 4-ROUND CHECKS PASSED!
+
+[tb_ascon128_lwc]
+Expected Ciphertext: bc820dbdf7a4631c
+Got Ciphertext:      bc820dbdf7a4631c
+Expected Tag:        5008e52f9b5291a4b80958b5a332b823
+Got Tag:             5008e52f9b5291a4b80958b5a332b823
+✅ [PASS] Ciphertext matches official NIST SP 800-232 bit-for-bit!
+✅ [PASS] 128-Bit Authentication Tag matches official NIST SP 800-232 bit-for-bit!
+🏆 [SUCCESS] ASCON-128 NIST LWC HARDWARE ENGINE FULLY VALIDATED!
 ```
 
 ---

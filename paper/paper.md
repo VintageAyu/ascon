@@ -157,9 +157,11 @@ The repository contains synthesizable Verilog HDL cores:
 - [`ascon128_lwc_core.v`](file:///Z:/AGI/Luna/hardware/ascon/ascon128_lwc_core.v): Streaming NIST LWC / ATHENa compliant AEAD engine.
 
 ### Verification Results
-1. **Exhaustive Truth Table**: 32/32 inputs evaluated against official NIST SP 800-232 S-box with **0 errors**.
-2. **Bitsliced Random Testing**: 64,000 bitslices (1,000 64-bit random words) evaluated bit-for-bit with **0 errors**.
-3. **Full NIST AEAD KAT**: Hardware simulation matches expected NIST ciphertext and authentication tag (`5008e52f9b5291a4b80958b5a332b823`) bit-for-bit.
+1. **Exhaustive Truth Table**: 32/32 inputs evaluated against official NIST SP 800-232 S-box with **0 errors** in both Python and Verilog simulation (`tb_ascon_sbox_18gate.v`).
+2. **Bitsliced Random Testing**: 64,000 bitslices (1,000 64-bit random words) evaluated bit-for-bit with **0 errors** in Python, and 508 multi-round/randomized hardware checks verified in `tb_ascon_super_round_2r.v`.
+3. **Full NIST AEAD KAT**: Cycle-accurate Verilog simulation (`tb_ascon128_lwc.v`) matches expected NIST ciphertext and authentication tag bit-for-bit:
+   - **Ciphertext**: `bc820dbdf7a4631c`
+   - **Authentication Tag**: `5008e52f9b5291a4b80958b5a332b823`
 
 ---
 
