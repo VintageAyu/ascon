@@ -192,15 +192,15 @@ module ascon128_lwc_core (
                 // Key XOR at end of initialization
                 STATE_INIT_KEY: begin
                     s3 <= s3 ^ k0;
-                    s4 <= s4 ^ k1;
                     if (has_ad && ad_bytes > 0) begin
+                        s4              <= s4 ^ k1;
                         bytes_remaining <= ad_bytes;
                         word_count      <= 3'd0;
                         pdi_ready       <= 1'b1;
                         state           <= STATE_PROC_AD;
                     end else begin
                         // 1-bit domain separation if no AD
-                        s4 <= s4 ^ 64'd1;
+                        s4              <= s4 ^ k1 ^ 64'd1;
                         bytes_remaining <= pt_bytes;
                         word_count      <= 3'd0;
                         pdi_ready       <= (pt_bytes > 0);

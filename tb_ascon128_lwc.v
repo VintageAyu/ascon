@@ -97,45 +97,47 @@ module tb_ascon128_lwc;
         errors    = 0;
 
         #20;
+        @(negedge clk);
         rst_n = 1;
-        #10;
 
         $display("==================================================================");
         $display("  TESTING ASCON-128 NIST LWC 2-ROUND SUPER-ROUND HARDWARE CORE");
         $display("==================================================================");
 
         // Start AEAD operation
+        @(negedge clk);
         start_op = 1;
-        @(posedge clk);
+        @(negedge clk);
         start_op = 0;
 
         // 1. Feed 128-bit Key over SDI: 000102030405060708090a0b0c0d0e0f
-        sdi_valid = 1;
-        sdi_data = 32'h00010203; @(posedge clk); while(!sdi_ready) @(posedge clk);
-        sdi_data = 32'h04050607; @(posedge clk); while(!sdi_ready) @(posedge clk);
-        sdi_data = 32'h08090a0b; @(posedge clk); while(!sdi_ready) @(posedge clk);
-        sdi_data = 32'h0c0d0e0f; @(posedge clk); while(!sdi_ready) @(posedge clk);
+        @(negedge clk); while(!sdi_ready) @(negedge clk);
+        sdi_valid = 1; sdi_data = 32'h00010203; @(negedge clk);
+        sdi_valid = 1; sdi_data = 32'h04050607; @(negedge clk);
+        sdi_valid = 1; sdi_data = 32'h08090a0b; @(negedge clk);
+        sdi_valid = 1; sdi_data = 32'h0c0d0e0f; @(negedge clk);
         sdi_valid = 0;
 
         // 2. Feed 128-bit Nonce over PDI: 000102030405060708090a0b0c0d0e0f
-        pdi_valid = 1;
-        pdi_data = 32'h00010203; @(posedge clk); while(!pdi_ready) @(posedge clk);
-        pdi_data = 32'h04050607; @(posedge clk); while(!pdi_ready) @(posedge clk);
-        pdi_data = 32'h08090a0b; @(posedge clk); while(!pdi_ready) @(posedge clk);
-        pdi_data = 32'h0c0d0e0f; @(posedge clk); while(!pdi_ready) @(posedge clk);
+        @(negedge clk); while(!pdi_ready) @(negedge clk);
+        pdi_valid = 1; pdi_data = 32'h00010203; @(negedge clk);
+        pdi_valid = 1; pdi_data = 32'h04050607; @(negedge clk);
+        pdi_valid = 1; pdi_data = 32'h08090a0b; @(negedge clk);
+        pdi_valid = 1; pdi_data = 32'h0c0d0e0f; @(negedge clk);
         pdi_valid = 0;
 
         // Wait for 12-round initialization (6 cycles of 2-round super-round core)
-        while (!pdi_ready) @(posedge clk);
+        @(negedge clk);
+        while (!pdi_ready) @(negedge clk);
 
         // 3. Feed 64-bit Plaintext over PDI: 0001020304050607
-        pdi_valid = 1;
-        pdi_data = 32'h00010203; @(posedge clk); while(!pdi_ready) @(posedge clk);
-        pdi_data = 32'h04050607; @(posedge clk);
+        pdi_valid = 1; pdi_data = 32'h00010203; @(negedge clk);
+        pdi_valid = 1; pdi_data = 32'h04050607; @(negedge clk);
         pdi_valid = 0;
 
         // Wait for complete operation (Finalization & Tag emission)
-        while (!done) @(posedge clk);
+        @(negedge clk);
+        while (!done) @(negedge clk);
         #20;
 
         $display("\n--- RESULTS ---");
